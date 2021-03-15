@@ -3,6 +3,11 @@
     <head>
         <title>Suite cours - HTTP request</title>
         <meta charset="utf-8">
+        <style>
+            .contenu{
+                padding: 2px;
+            }
+        </style>
     </head>
 
     <body>
@@ -10,7 +15,7 @@
 
         <hr>
 
-        <p>Informations : <br>
+        <!-- <p>Informations : <br>
         </p>
         <ul>
             <li>On récupère un fichier .xml grâce à une requête HTTP.</li>
@@ -34,7 +39,7 @@
             <li>L'URL - un fichier sur un serveur</li>
             <li>les pages html et les fichiers web doivent être sur le même serveur.</li>
             <li>Le dernier paramètre permet de définir si async ou non (executer des taches de fond, ne pas attendre de réponse du serveur)</li>
-        </ul>
+        </ul> -->
 
         <h2>XML request</h2>
 
@@ -43,46 +48,33 @@
 
         <!-- bouton qui lance la méthode de chargement du xml -->
         <button onclick="GetXML();">Lancement du changement du xml</button>
-
-        <TEXTAREA id="areaFilms"  rows="20" cols="50"></TEXTAREA>
-
-        <div id="areaInfos"></div>
-
-        
+        <br><br>
+        <div style="display:flex; flex-direction: row;">
+            <div class="contenu">
+                <h3>Titres</h3>
+                <TEXTAREA id="areaTitres"  rows="20" cols="50"></TEXTAREA>
+            </div>
+            <div class="contenu">   
+                <h3>Realisateurs</h3>
+                <TEXTAREA id="areaReals"  rows="20" cols="50"></TEXTAREA>
+            </div>        
+           <div class="contenu">
+                <h3>Dates</h3>
+                <TEXTAREA id="areaDates"  rows="20" cols="50"></TEXTAREA>
+           </div>
+        </div>
+            
         <script type="text/javascript">
-        // function GetXML()
-        // {
-        //     //recuperer le conteneur
-        //     var contenur = document.getElementById("conteneur");
-
-        //     //declaration de l'objet http 
-        //     var http = new XMLHttpRequest();
-
-        //     http.onreadystatechange = function ()
-        //     {
-        //         if(this.readyState == 4 && this.status == 200 )
-        //         {
-        //             console.log("Chargement terminé"); 
-        //             conteneur.innerHTML = http.responseText; 
-        //         }
-        //     };
-
-        //     http.open("GET", "mesfilms.xml", true);
-        //     http.send(); 
-        // }
         
         var http = new XMLHttpRequest(); 
 
         function GetXML()
         {
-            
-
             http.onreadystatechange = function()
             {
                 if(http.readyState == 4 && http.status == 200)
                 {
-                    var parser = new DOMParser();
-                   // XMLDocument = parser.parseFromString(this.responseText, "text/hml"); 
+                    let parser = new DOMParser();
                     let XMLDoc = parser.parseFromString(this.responseText, "text/html"); 
 
                     document.getElementById("areaFilms").innerHTML = this.responseText; 
@@ -99,7 +91,7 @@
                         const ladate = dates[index]; 
 
                         titres = titre + lefilm.innerHTML + "\n";
-                        infos = infps + "Film : " + lefilm.innerHTML + " Realisateur : " + lereal.innerHTML + " Date : " + ladate.innerHTML + "\n";
+                        infos = infos + "Film : " + lefilm.innerHTML + " Realisateur : " + lereal.innerHTML + " Date : " + ladate.innerHTML + "\n";
                     }   
                 document.getElementById("areaTitres").innerHTML = titres; 
                 document.getElementById("areaInfos").innerHTML = infos; 
