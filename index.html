@@ -1,0 +1,112 @@
+<html>
+    <head>
+        <title>Suite cours - HTTP request</title>
+        <meta charset="utf-8">
+    </head>
+
+    <body>
+        <h1>HTTP request</h1>
+
+        <hr>
+
+        <p>Informations : <br>
+        </p>
+        <ul>
+            <li>On récupère un fichier .xml grâce à une requête HTTP.</li>
+            <li>L'objectif est d'afficher le contenu de l'xml dans la page appelante.</li>
+            <li>En utilisant la variable xhttp</li>
+            <li>Pour créer un objet XMLHttpRequest : "var xhttp = new XMLHttpRequest();"</li>
+            <li>La propriété readyState contient le statut de l’objet xhttp créé</li>
+            <li>L’événement onreadystatechange est déclenché chaque fois que readyState change</li>
+            <li>Lors d'une demande de serveur, le readyState passe de 0 à 4:
+                <ul>
+                    <li>0: demande non initialisée</li>
+                    <li>1: connexion au serveur établie</li>
+                    <li>2: demande reçue</li>
+                    <li>3: demande de traitement</li>
+                    <li>4: demander fini et la réponse est prête</li>
+                </ul>
+            </li>
+            <li>Statut 200 : OK ; Statut 404 : ressource non trouvée.</li>
+            <li>La méthode open (sans argument pour un GET).</li>
+            <li>La méthode GET est plus simple que POST et utilisable dans la plupart des cas.</li>
+            <li>L'URL - un fichier sur un serveur</li>
+            <li>les pages html et les fichiers web doivent être sur le même serveur.</li>
+            <li>Le dernier paramètre permet de définir si async ou non (executer des taches de fond, ne pas attendre de réponse du serveur)</li>
+        </ul>
+
+        <h2>XML request</h2>
+
+        <!-- conteneur qui recevra le résultat de la requête -->
+        <div id="conteneur"></div>
+
+        <!-- bouton qui lance la méthode de chargement du xml -->
+        <button onclick="GetXML();">Lancement du changement du xml</button>
+
+        <TEXTAREA id="areaFilms"  rows="20" cols="50"></TEXTAREA>
+
+        <div id="areaInfos"></div>
+
+        
+        <script type="text/javascript">
+        // function GetXML()
+        // {
+        //     //recuperer le conteneur
+        //     var contenur = document.getElementById("conteneur");
+
+        //     //declaration de l'objet http 
+        //     var http = new XMLHttpRequest();
+
+        //     http.onreadystatechange = function ()
+        //     {
+        //         if(this.readyState == 4 && this.status == 200 )
+        //         {
+        //             console.log("Chargement terminé"); 
+        //             conteneur.innerHTML = http.responseText; 
+        //         }
+        //     };
+
+        //     http.open("GET", "mesfilms.xml", true);
+        //     http.send(); 
+        // }
+        
+        var http = new XMLHttpRequest(); 
+
+        function GetXML()
+        {
+            
+
+            http.onreadystatechange = function()
+            {
+                if(http.readyState == 4 && http.status == 200)
+                {
+                    var parser = new DOMParser();
+                   // XMLDocument = parser.parseFromString(this.responseText, "text/hml"); 
+                    let XMLDoc = parser.parseFromString(this.responseText, "text/html"); 
+
+                    document.getElementById("areaFilms").innerHTML = this.responseText; 
+                    let films = xMLDoc.getElementByTagName("titre"); 
+                    let titres = ""; 
+                    let infos = ""; 
+                    let reals = XMLDoc.getElementsByTagName("realisateur"); 
+                    let dates = XMLDoc.getElementsByTagName("date"); 
+
+                    for(let index = 0; index < films.length; index++)
+                    {
+                        const lefilm = films[index]; 
+                        const lereal = reals[index]; 
+                        const ladate = dates[index]; 
+
+                        titres = titre + lefilm.innerHTML + "\n";
+                        infos = infps + "Film : " + lefilm.innerHTML + " Realisateur : " + lereal.innerHTML + " Date : " + ladate.innerHTML + "\n";
+                    }   
+                document.getElementById("areaTitres").innerHTML = titres; 
+                document.getElementById("areaInfos").innerHTML = infos; 
+                };
+            }
+        }
+        http.open("GET", "mesfilms.xml", true);
+        http.send(); 
+        </script>
+    </body>
+</html>
