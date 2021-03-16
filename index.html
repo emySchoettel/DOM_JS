@@ -53,7 +53,7 @@
         <br><br>
         <div style="display:flex; flex-direction: row;">
             <div class="contenu">
-                <h3>Titres</h3>
+                <h3>XML</h3>
                 <TEXTAREA id="areaXML"  rows="20" cols="50"></TEXTAREA>
             </div>
             <div class="contenu">
@@ -75,6 +75,7 @@
         var string = "<?xml version='1.0'?><films><film idfilm='1'><titre>The rider</titre><realisateur>Chloe Zhao</realisateur><date>2017</date></film><film idfilm='2'><titre>Mon Voisin Totoro</titre><realisateur>Ghibli</realisateur><date>1988</date></film><film idfilm='3'><titre>La princesse Mononoké</titre><realisateur>Ghibli</realisateur><date>1997</date></film><film idfilm='4'><titre>Toy Story</titre><realisateur>Pixar</realisateur><date>1995</date></film><film idfilm='5'><titre>Kiki la petite sorcière</titre><realisateur></realisateur><date>1989</date></film><film idfilm='6'><titre>La reine des neiges</titre><realisateur>Disney</realisateur><date>2013</date></film></films>";
         
         var http = new XMLHttpRequest(); 
+        http.open("GET", "mesfilms.xml", true);
 
         function getEasyXML()
         {
@@ -155,7 +156,7 @@
                 }
             }
         }
-        http.open("GET", "mesfilms.xml", true);
+       
         http.send(); 
         </script>
     </body>
