@@ -47,9 +47,15 @@
         <div id="conteneur"></div>
 
         <!-- bouton qui lance la méthode de chargement du xml -->
-        <button onclick="GetXML();">Lancement du changement du xml</button>
+        <button onclick="GetXML();">Lancement du changement du xml à distance</button>
+        <!-- bouton qui lance la méthode de chargement du xml -->
+        <button onclick="getEasyXML();">Lancement du changement du xml local</button>
         <br><br>
         <div style="display:flex; flex-direction: row;">
+            <div class="contenu">
+                <h3>Titres</h3>
+                <TEXTAREA id="areaXML"  rows="20" cols="50"></TEXTAREA>
+            </div>
             <div class="contenu">
                 <h3>Titres</h3>
                 <TEXTAREA id="areaTitres"  rows="20" cols="50"></TEXTAREA>
@@ -66,50 +72,86 @@
             
         <script type="text/javascript">
         
+        var string = "<?xml version='1.0'?><films><film idfilm='1'><titre>The rider</titre><realisateur>Chloe Zhao</realisateur><date>2017</date></film><film idfilm='2'><titre>Mon Voisin Totoro</titre><realisateur>Ghibli</realisateur><date>1988</date></film><film idfilm='3'><titre>La princesse Mononoké</titre><realisateur>Ghibli</realisateur><date>1997</date></film><film idfilm='4'><titre>Toy Story</titre><realisateur>Pixar</realisateur><date>1995</date></film><film idfilm='5'><titre>Kiki la petite sorcière</titre><realisateur></realisateur><date>1989</date></film><film idfilm='6'><titre>La reine des neiges</titre><realisateur>Disney</realisateur><date>2013</date></film></films>";
+        
         var http = new XMLHttpRequest(); 
 
-        function GetXML()
+        function getEasyXML()
         {
-            console.log("chargement");
-            console.log(http.readyState);
-            console.log(http.statusText);
-            http.onreadystatechange = function()
+            var parser = new DOMParser(); 
+            var xmldoc = parser.parseFromString(string, "text/html");
+            console.log(xmldoc);
+            document.getElementById("areaXML").innerHTML = xmldoc.getElementsByTagName("films");
+             
+            let titres = xmldoc.getElementsByTagName("titre"); 
+            let lestitres = "" 
+            let lesdates = ""; 
+            let lesreals = ""; 
+            let reals = xmldoc.getElementsByTagName("realisateur"); 
+            let dates = xmldoc.getElementsByTagName("date"); 
+
+            let lefilm = ""; 
+            let lereal = ""; 
+            let ladate = "";
+
+            for(let index = 0; index < titres.length; index++)
             {
-                if(http.readyState == 4 && http.status == 200)
-                {
-                    let parser = new DOMParser();
-                    XMLDoc = parser.parseFromString(this.responseText, "text/html"); 
+                lefilm = titres[index].innerHTML; 
+                lestitres += "Titre : " + lefilm + "\n"; 
 
-                    document.getElementById("areaFilms").innerHTML = this.responseText; 
-                    let films = xMLDoc.getElementByTagName("titre"); 
-                    let titres = ""; 
-                    let lesdates = ""; 
-                    let lesreals = ""; 
-                    let reals = XMLDoc.getElementsByTagName("realisateur"); 
-                    let dates = XMLDoc.getElementsByTagName("date"); 
+                lereal = reals[index].innerHTML; 
+                lesreals += "Realisateurs : " + lereal + "\n";
 
-                    for(let index = 0; index < films.length; index++)
-                    {
-                        const lefilm = films[index]; 
-                        const lereal = reals[index]; 
-                        const ladate = dates[index]; 
-                        console.log(lefilm);
-                        console.log(lereal);
-                        console.log(ladate);
-
-                        titres = titre + lefilm.innerHTML + "\n";
-                        lesdates = "Date : " + ladate.innerHTML + "\n";
-                        lesreals = "Realisateurs : " + lereal.innerHTML + "\n";
-                        //infos = infos + "Film : " + lefilm.innerHTML + " Realisateur : " + lereal.innerHTML + " Date : " + ladate.innerHTML + "\n";
-                    }   
-                document.getElementById("areaTitres").innerHTML = titres; 
-                document.getElementById("araeReals").innerHTML = lesreals; 
-                document.getElementById("araeDates").innerHTML = lesdates; 
-                };
+                ladate = dates[index].innerHTML; 
+                lesdates += "Date : " + ladate + "\n";  
+            }   
+            document.getElementById("areaTitres").innerHTML = lestitres;
+            document.getElementById("areaReals").innerHTML = lesreals; 
+            document.getElementById("areaDates").innerHTML = lesdates; 
             }
-        }
-        http.open("GET", "mesfilms.xml", true);
-        http.send(); 
+
+        // function GetXML()
+        // {
+        //     console.log("chargement");
+        //     console.log(http.readyState);
+        //     console.log(http.statusText);
+        //     http.onreadystatechange = function()
+        //     {
+        //         if(http.readyState == 4 && http.status == 200)
+        //         {
+        //             let parser = new DOMParser();
+        //             XMLDoc = parser.parseFromString(this.responseText, "text/html"); 
+
+        //             document.getElementById("areaFilms").innerHTML = this.responseText; 
+        //             let films = xMLDoc.getElementByTagName("titre"); 
+        //             let titres = ""; 
+        //             let lesdates = ""; 
+        //             let lesreals = ""; 
+        //             let reals = XMLDoc.getElementsByTagName("realisateur"); 
+        //             let dates = XMLDoc.getElementsByTagName("date"); 
+
+        //             for(let index = 0; index < films.length; index++)
+        //             {
+        //                 const lefilm = films[index]; 
+        //                 const lereal = reals[index]; 
+        //                 const ladate = dates[index]; 
+        //                 console.log(lefilm);
+        //                 console.log(lereal);
+        //                 console.log(ladate);
+
+        //                 titres = titre + lefilm.innerHTML + "\n";
+        //                 lesdates = "Date : " + ladate.innerHTML + "\n";
+        //                 lesreals = "Realisateurs : " + lereal.innerHTML + "\n";
+        //                 //infos = infos + "Film : " + lefilm.innerHTML + " Realisateur : " + lereal.innerHTML + " Date : " + ladate.innerHTML + "\n";
+        //             }   
+        //         document.getElementById("areaTitres").innerHTML = titres; 
+        //         document.getElementById("araeReals").innerHTML = lesreals; 
+        //         document.getElementById("araeDates").innerHTML = lesdates; 
+        //         };
+        //     }
+        // }
+        // http.open("GET", "mesfilms.xml", true);
+        // http.send(); 
         </script>
     </body>
 </html>
