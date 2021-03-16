@@ -151,7 +151,7 @@
                     let lestitres = "" 
                     let lesdates = ""; 
                     let lesreals = ""; 
-                    let reals = XMLDoc.getElementsByTagName("realisateur"); 
+                    var reals = XMLDoc.getElementsByTagName("realisateur"); 
                     let dates = XMLDoc.getElementsByTagName("date"); 
 
                     let lefilm = ""; 
@@ -163,15 +163,12 @@
                     {
                         lefilm = titres[index].innerHTML; 
                         lestitres += "Titre : " + lefilm + "\n"; 
-                        console.log(lefilm);
 
                         lereal = reals[index].innerHTML; 
                         lesreals += "Realisateurs : " + lereal + "\n";
-                        console.log(lereal);
 
                         ladate = dates[index].innerHTML; 
                         lesdates += "Date : " + ladate + "\n";  
-                        console.log(ladate)
                     }   
                     //Ajout dans le html 
                     document.getElementById("areaTitres").innerHTML = lestitres;
@@ -188,34 +185,33 @@
         //Fonction pour remplir la liste déroulante avec les réalisateurs du xml 
         function setOptions()
         {
-            var httpsrequest = new XMLHttpRequest(); 
+            //var httpsrequest = new XMLHttpRequest(); 
 
             //var string = "<?xml version='1.0'?><films><film idfilm='1'><titre>The rider</titre><realisateur>Chloe Zhao</realisateur><date>2017</date></film><film idfilm='2'><titre>Mon Voisin Totoro</titre><realisateur>Ghibli</realisateur><date>1988</date></film><film idfilm='3'><titre>La princesse Mononoké</titre><realisateur>Ghibli</realisateur><date>1997</date></film><film idfilm='4'><titre>Toy Story</titre><realisateur>Pixar</realisateur><date>1995</date></film><film idfilm='5'><titre>Kiki la petite sorcière</titre><realisateur>Hayao Miyazaki</realisateur><date>1989</date></film><film idfilm='6'><titre>La reine des neiges</titre><realisateur>Disney</realisateur><date>2013</date></film></films>";
-            var parser = new DOMParser(); 
-            var xmldoc = parser.parseFromString(this.responseXML, "text/html");
-            var realisateurs = xmldoc.getElementsByTagName("realisateur");
-            var select = document.getElementById("realSelect");
-            let option; 
+            // var parser = new DOMParser(); 
+            // var xmldoc = parser.parseFromString(this.responseXML, "text/html");
+            // var realisateurs = xmldoc.getElementsByTagName("realisateur");
+            // var select = document.getElementById("realSelect");
+            // let option; 
 
-            console.log(httpsrequest.status);
-            console.log(httpsrequest.readyState);
+            console.log(reals);
 
-            httpsrequest.onreadystatechange = function()
+            // console.log(httpsrequest.status);
+            // console.log(httpsrequest.readyState);
+
+            // httpsrequest.onreadystatechange = function()
+            // {
+            //     console.log(httpsrequest.status);
+            //     console.log(httpsrequest.readyState);
+            //     if(httpsrequest.status == 200 && httpsrequest.readyState == 4)
+            //     {
+            for(let index = 1; index < realisateurs.length; index++)
             {
-                console.log(httpsrequest.status);
-                console.log(httpsrequest.readyState);
-                if(httpsrequest.status == 200 && httpsrequest.readyState == 4)
-                {
-                    for(let index = 1; index < realisateurs.length; index++)
-                    {
-                        option = document.createElement("option");
-                        option.setAttribute("value", realisateurs[index].innerHTML);
-                        option.innerHTML = realisateurs[index].innerHTML;
+                option = document.createElement("option");
+                option.setAttribute("value", realisateurs[index].innerHTML);
+                option.innerHTML = realisateurs[index].innerHTML;
 
-                        select.appendChild(option);
-                    }
-                }
-
+                select.appendChild(option);
             }
         }
 
