@@ -126,6 +126,9 @@
                     let parser = new DOMParser();
                     XMLDoc = parser.parseFromString(this.responseText, "text/html"); 
 
+                    let response = this.responseText;
+                    console.log(response);
+
                     let titres = XMLDoc.getElementsByTagName("titre"); 
                     console.log(titres);
                     let lestitres = "" 
