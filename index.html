@@ -75,8 +75,6 @@
 
         <h2>XML liste déroulante</h2>
 
-        <button onclick="setOptions();">Ajouter les options</button>
-
         <select id="realSelect" onchange="changeValue();">
             <option value="">--</option>
         </select>
@@ -114,6 +112,8 @@
             //ouverture de la requête et renvoi des informations 
             REQ.open("GET", "mesfilms.xml", true);
             REQ.send();
+
+            setOptions();
         }
 
         //fonction pour remplir les text areas de façon locale
@@ -185,7 +185,7 @@
             document.getElementById("areaTitres").innerHTML = lestitres;
             document.getElementById("areaReals").innerHTML = lesreals; 
             document.getElementById("areaDates").innerHTML = lesdates; 
-         
+            document.getElementById("areaXML").innerHTML = this.responseXML;
         }
 
 
@@ -209,6 +209,8 @@
         {
             let divReal = document.querySelector('#listereal');
             let choix =  select.options[select.selectedIndex].text
+
+            console.log(choix);
 
             let infosDiv = ""; 
 
