@@ -83,6 +83,12 @@
             <p id="paragraphe"></p>
         </div>
         
+        <h2>XPath</h2>
+
+        <div id="path">
+            <
+        </div>
+
             
         <script type="text/javascript">
         
@@ -206,9 +212,7 @@
         {
             let select = document.getElementById("realSelect")
             let divReal = document.querySelector('#listereal');
-            let choix =  select.options[select.selectedIndex].text
-
-            console.log(choix);
+            let choix =  select.options[select.selectedIndex].text;
 
             let infosDiv = ""; 
 
@@ -222,6 +226,26 @@
 
             let paragraphe = document.querySelector("p#paragraphe")
             paragraphe.innerHTML = infosDiv;
+        }
+
+        function xpath(xml)
+        {
+            var txt = ""; 
+            path = "/films/film/titre";
+
+            if (xml.evaluate)
+            {
+                var nodes = xml.evaluate(path, xml, null, XPathResult.ANY_TYPE, null);
+                var result = nodes.iterateNext(); 
+
+                while(result)
+                {
+                    txt += result.childNodes[0].nodeValue + "\n";
+                    result = nodes.iterateNext(); 
+                }
+            }
+
+
         }
          
         </script>
