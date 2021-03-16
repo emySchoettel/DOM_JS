@@ -10,7 +10,7 @@
         </style>
     </head>
 
-    <body onload="setOptions();">
+    <body>
         <h1>HTTP request</h1>
 
         <hr>
@@ -74,6 +74,8 @@
         </div>
 
         <h2>XML liste déroulante</h2>
+
+        <button onclick="setOptions();">Ajouter les options</button>
 
         <select id="realSelect" onchange="changeValue();">
             <option value="">--</option>
@@ -195,7 +197,6 @@
             var select = document.getElementById("realSelect");
             let option; 
 
-            
             REQ.onreadystatechange = function()
             {
                 console.log(REQ.status);
