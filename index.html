@@ -136,6 +136,7 @@
         {
             //initialisation requete http 
             var REQ = new XMLHttpRequest(); 
+            var reals; 
 
             REQ.onreadystatechange = function()
             {
@@ -151,7 +152,7 @@
                     let lestitres = "" 
                     let lesdates = ""; 
                     let lesreals = ""; 
-                    var reals = XMLDoc.getElementsByTagName("realisateur"); 
+                    reals = XMLDoc.getElementsByTagName("realisateur"); 
                     let dates = XMLDoc.getElementsByTagName("date"); 
 
                     let lefilm = ""; 
