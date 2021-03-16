@@ -113,7 +113,7 @@
         {
             console.log("chargement");
             console.log(http.readyState);
-            console.log(http.statusText);
+            console.log(http.status);
             http.onreadystatechange = function()
             {
                 if(http.readyState == 4 && http.status == 200)
