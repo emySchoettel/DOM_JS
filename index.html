@@ -198,6 +198,8 @@
             
             REQ.onreadystatechange = function()
             {
+                console.log(REQ.status);
+                console.log(REQ.readyState);
                 if(REQ.status == 200 && REQ.readyState == 4)
                 {
                     for(let index = 1; index < realisateurs.length; index++)
