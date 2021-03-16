@@ -121,12 +121,12 @@
         {
             var REQ = new XMLHttpRequest(); 
             console.log("chargement");
-            console.log(http.readyState == 4);
-            console.log(http.status == 200);
+            console.log(REQ.readyState == 4);
+            console.log(REQ.status == 200);
             REQ.onreadystatechange = function()
             {
                 console.log("onreadychange");
-                if(REQ.readyState == 4 && http.status == 200)
+                if(REQ.readyState == 4 && REQ.status == 200)
                 {
                     let parser = new DOMParser();
                     XMLDoc = parser.parseFromString(this.responseText, "text/html"); 
