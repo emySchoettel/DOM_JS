@@ -70,6 +70,7 @@
 
         function GetXML()
         {
+            console.log("chargement");
             http.onreadystatechange = function()
             {
                 if(http.readyState == 4 && http.status == 200)
