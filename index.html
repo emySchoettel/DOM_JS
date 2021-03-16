@@ -112,8 +112,20 @@
             //ouverture de la requête et renvoi des informations 
             REQ.open("GET", "mesfilms.xml", true);
             REQ.send();
-            console.log("anté options");
-            setOptions();
+            
+            //set options
+            var select = document.getElementById("realSelect");
+            let option; 
+            reals = xmldoc.getElementsByTagName("realisateur"); 
+
+            for(let index = 1; index < reals.length; index++)
+            {
+                option = document.createElement("option");
+                option.setAttribute("value", reals[index].innerHTML);
+                option.innerHTML = reals[index].innerHTML;
+
+                select.appendChild(option);
+            }
         }
 
         //fonction pour remplir les text areas de façon locale
@@ -188,25 +200,6 @@
             document.getElementById("areaXML").innerHTML = this.responseXML;
         }
 
-
-        //Fonction pour remplir la liste déroulante avec les réalisateurs du xml 
-        function setOptions()
-        {
-            console.log("dans options");
-            var select = document.getElementById("realSelect");
-            let option; 
-            reals = xmldoc.getElementsByTagName("realisateur"); 
-            console.log(reals);
-
-            for(let index = 1; index < reals.length; index++)
-            {
-                option = document.createElement("option");
-                option.setAttribute("value", reals[index].innerHTML);
-                option.innerHTML = reals[index].innerHTML;
-
-                select.appendChild(option);
-            }
-        }
 
         function changeValue()
         {
