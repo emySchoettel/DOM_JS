@@ -75,12 +75,13 @@
                 if(http.readyState == 4 && http.status == 200)
                 {
                     let parser = new DOMParser();
-                    let XMLDoc = parser.parseFromString(this.responseText, "text/html"); 
+                    XMLDoc = parser.parseFromString(this.responseText, "text/html"); 
 
                     document.getElementById("areaFilms").innerHTML = this.responseText; 
                     let films = xMLDoc.getElementByTagName("titre"); 
                     let titres = ""; 
-                    let infos = ""; 
+                    let lesdates = ""; 
+                    let lesreals = ""; 
                     let reals = XMLDoc.getElementsByTagName("realisateur"); 
                     let dates = XMLDoc.getElementsByTagName("date"); 
 
@@ -91,10 +92,13 @@
                         const ladate = dates[index]; 
 
                         titres = titre + lefilm.innerHTML + "\n";
-                        infos = infos + "Film : " + lefilm.innerHTML + " Realisateur : " + lereal.innerHTML + " Date : " + ladate.innerHTML + "\n";
+                        lesdates = "Date : " + ladate.innerHTML + "\n";
+                        lesreals = "Realisateurs : " + lereal.innerHTML + "\n";
+                        //infos = infos + "Film : " + lefilm.innerHTML + " Realisateur : " + lereal.innerHTML + " Date : " + ladate.innerHTML + "\n";
                     }   
                 document.getElementById("areaTitres").innerHTML = titres; 
-                document.getElementById("areaInfos").innerHTML = infos; 
+                document.getElementById("araeReals").innerHTML = lesreals; 
+                document.getElementById("araeDates").innerHTML = lesdates; 
                 };
             }
         }
