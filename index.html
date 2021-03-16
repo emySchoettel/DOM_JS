@@ -112,7 +112,7 @@
             //ouverture de la requête et renvoi des informations 
             REQ.open("GET", "mesfilms.xml", true);
             REQ.send();
-
+            console.log("anté options");
             setOptions();
         }
 
@@ -192,6 +192,7 @@
         //Fonction pour remplir la liste déroulante avec les réalisateurs du xml 
         function setOptions()
         {
+            console.log("dans options");
             var select = document.getElementById("realSelect");
             let option; 
 
