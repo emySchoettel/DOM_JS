@@ -112,8 +112,8 @@
         function GetXML()
         {
             console.log("chargement");
-            console.log(http.readyState);
-            console.log(http.status);
+            console.log(http.readyState == 4);
+            console.log(http.status == 200);
             http.onreadystatechange = function()
             {
                 if(http.readyState == 4 && http.status == 200)
