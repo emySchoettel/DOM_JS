@@ -77,7 +77,7 @@
         
         var xml = "<?xml version='1.0'?><films><film idfilm='1'><titre>The rider</titre><realisateur>Chloe Zhao</realisateur><date>2017</date></film><film idfilm='2'><titre>Mon Voisin Totoro</titre><realisateur>Ghibli</realisateur><date>1988</date></film><film idfilm='3'><titre>La princesse Mononoké</titre><realisateur>Ghibli</realisateur><date>1997</date></film><film idfilm='4'><titre>Toy Story</titre><realisateur>Pixar</realisateur><date>1995</date></film><film idfilm='5'><titre>Kiki la petite sorcière</titre><realisateur>Hayao Miyazaki</realisateur><date>1989</date></film><film idfilm='6'><titre>La reine des neiges</titre><realisateur>Disney</realisateur><date>2013</date></film></films>";
         
-        var http = new XMLHttpRequest(); 
+       
    
         
         let response = this.responseText;
@@ -119,13 +119,14 @@
 
         function GetXML()
         {
+            var REQ = new XMLHttpRequest(); 
             console.log("chargement");
             console.log(http.readyState == 4);
             console.log(http.status == 200);
-            http.onreadystatechange = function()
+            REQ.onreadystatechange = function()
             {
                 console.log("onreadychange");
-                if(http.readyState == 4 && http.status == 200)
+                if(REQ.readyState == 4 && http.status == 200)
                 {
                     let parser = new DOMParser();
                     XMLDoc = parser.parseFromString(this.responseText, "text/html"); 
@@ -164,9 +165,10 @@
                     document.getElementById("areaDates").innerHTML = lesdates; 
                 }
             }
+            REQ.open("GET", "mesfilms.xml", true);
+            REQ.send();
         }
-        http.open("GET", "mesfilms.xml", true);
-        http.send(); 
+         
         </script>
     </body>
 </html>
