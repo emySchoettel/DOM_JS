@@ -10,12 +10,12 @@
         </style>
     </head>
 
-    <body>
+    <body onload="setOptions();">
         <h1>HTTP request</h1>
 
         <hr>
 
-        <!-- <p>Informations : <br>
+        <p>Informations : <br>
         </p>
         <ul>
             <li>On récupère un fichier .xml grâce à une requête HTTP.</li>
@@ -39,7 +39,7 @@
             <li>L'URL - un fichier sur un serveur</li>
             <li>les pages html et les fichiers web doivent être sur le même serveur.</li>
             <li>Le dernier paramètre permet de définir si async ou non (executer des taches de fond, ne pas attendre de réponse du serveur)</li>
-        </ul> -->
+        </ul> 
 
         <h2>XML request</h2>
 
@@ -57,38 +57,47 @@
         <div style="display:flex; flex-direction: row;">
             <div class="contenu">
                 <h3>XML</h3>
-                <TEXTAREA id="areaXML"  rows="20" cols="50"></TEXTAREA>
+                <TEXTAREA id="areaXML"  rows="10" cols="20"></TEXTAREA>
             </div>
             <div class="contenu">
                 <h3>Titres</h3>
-                <TEXTAREA id="areaTitres"  rows="20" cols="50"></TEXTAREA>
+                <TEXTAREA id="areaTitres"  rows="10" cols="20"></TEXTAREA>
             </div>
             <div class="contenu">   
                 <h3>Realisateurs</h3>
-                <TEXTAREA id="areaReals"  rows="20" cols="50"></TEXTAREA>
+                <TEXTAREA id="areaReals"  rows="10" cols="20"></TEXTAREA>
             </div>        
            <div class="contenu">
                 <h3>Dates</h3>
-                <TEXTAREA id="areaDates"  rows="20" cols="50"></TEXTAREA>
+                <TEXTAREA id="areaDates"  rows="10" cols="20"></TEXTAREA>
            </div>
         </div>
+
+        <h2>XML liste déroulante</h2>
+
+        <select id="realSelect" onchange="changeValue();">
+            <option value="">--</option>
+        </select>
+
+        <div id="listereal">
+            <p id="paragraphe"></p>
+        </div>
+        
             
         <script type="text/javascript">
         
         var xml = "<?xml version='1.0'?><films><film idfilm='1'><titre>The rider</titre><realisateur>Chloe Zhao</realisateur><date>2017</date></film><film idfilm='2'><titre>Mon Voisin Totoro</titre><realisateur>Ghibli</realisateur><date>1988</date></film><film idfilm='3'><titre>La princesse Mononoké</titre><realisateur>Ghibli</realisateur><date>1997</date></film><film idfilm='4'><titre>Toy Story</titre><realisateur>Pixar</realisateur><date>1995</date></film><film idfilm='5'><titre>Kiki la petite sorcière</titre><realisateur>Hayao Miyazaki</realisateur><date>1989</date></film><film idfilm='6'><titre>La reine des neiges</titre><realisateur>Disney</realisateur><date>2013</date></film></films>";
-        
-       
-   
-        
-        let response = this.responseText;
-        console.log(response);
 
+        //fonction pour remplir les text areas de façon locale
         function getEasyXML()
         {
+            //initialiation parser 
             var parser = new DOMParser(); 
             var xmldoc = parser.parseFromString(xml, "text/html");
+
             document.getElementById("areaXML").innerHTML = xmldoc.getElementsByTagName("films");
              
+            //variables pour remplir les inputs
             let titres = xmldoc.getElementsByTagName("titre"); 
             let lestitres = "" 
             let lesdates = ""; 
@@ -100,6 +109,7 @@
             let lereal = ""; 
             let ladate = "";
 
+            //itération pour construire le titre, la date et le réalisateur
             for(let index = 0; index < titres.length; index++)
             {
                 lefilm = titres[index].innerHTML; 
@@ -110,42 +120,43 @@
 
                 ladate = dates[index].innerHTML; 
                 lesdates += "Date : " + ladate + "\n";  
-            }   
+            } 
+
+            // remplissage des text areas
             document.getElementById("areaTitres").innerHTML = lestitres;
             document.getElementById("areaReals").innerHTML = lesreals; 
             document.getElementById("areaDates").innerHTML = lesdates; 
             }
 
 
+        //Fonction pour récupérer dynamiquement le XML : fonctionnement similaire à celle ci-dessus
         function GetXML()
         {
+            //initialisation requete http 
             var REQ = new XMLHttpRequest(); 
-            console.log("chargement");
-            console.log(REQ.readyState == 4);
-            console.log(REQ.status == 200);
+
             REQ.onreadystatechange = function()
             {
-                console.log("onreadychange");
+                //Quand la requête est fonctionnelle 
                 if(REQ.readyState == 4 && REQ.status == 200)
                 {
+                    //initialisation parser
                     let parser = new DOMParser();
                     XMLDoc = parser.parseFromString(this.responseText, "text/html"); 
 
-
+                    //initialisation récupération d'informations 
                     let titres = XMLDoc.getElementsByTagName("titre"); 
-                    console.log(titres);
                     let lestitres = "" 
                     let lesdates = ""; 
                     let lesreals = ""; 
                     let reals = XMLDoc.getElementsByTagName("realisateur"); 
-                    console.log(reals);
                     let dates = XMLDoc.getElementsByTagName("date"); 
-                    console.log(dates);
 
                     let lefilm = ""; 
                     let lereal = ""; 
                     let ladate = "";
 
+                    //Boucle pour mettre à jour les string
                     for(let index = 0; index < titres.length; index++)
                     {
                         lefilm = titres[index].innerHTML; 
@@ -160,13 +171,67 @@
                         lesdates += "Date : " + ladate + "\n";  
                         console.log(ladate)
                     }   
+                    //Ajout dans le html 
                     document.getElementById("areaTitres").innerHTML = lestitres;
                     document.getElementById("areaReals").innerHTML = lesreals; 
                     document.getElementById("areaDates").innerHTML = lesdates; 
                 }
             }
+            //ouverture de la requête et renvoi des informations 
             REQ.open("GET", "mesfilms.xml", true);
             REQ.send();
+        }
+
+
+        //Fonction pour remplir la liste déroulante avec les réalisateurs du xml 
+        function setOptions()
+        {
+            var REQ = new XMLHttpRequest(); 
+
+            //var string = "<?xml version='1.0'?><films><film idfilm='1'><titre>The rider</titre><realisateur>Chloe Zhao</realisateur><date>2017</date></film><film idfilm='2'><titre>Mon Voisin Totoro</titre><realisateur>Ghibli</realisateur><date>1988</date></film><film idfilm='3'><titre>La princesse Mononoké</titre><realisateur>Ghibli</realisateur><date>1997</date></film><film idfilm='4'><titre>Toy Story</titre><realisateur>Pixar</realisateur><date>1995</date></film><film idfilm='5'><titre>Kiki la petite sorcière</titre><realisateur>Hayao Miyazaki</realisateur><date>1989</date></film><film idfilm='6'><titre>La reine des neiges</titre><realisateur>Disney</realisateur><date>2013</date></film></films>";
+            var parser = new DOMParser(); 
+            var xmldoc = parser.parseFromString(this.responseText, "text/html");
+            var realisateurs = xmldoc.getElementsByTagName("realisateur");
+            var select = document.getElementById("realSelect");
+            let option; 
+
+            
+            REQ.onreadystatechange = function()
+            {
+                if(REQ.status == 200 && REQ.readyState == 4)
+                {
+                    for(let index = 1; index < realisateurs.length; index++)
+                    {
+                        option = document.createElement("option");
+                        option.setAttribute("value", realisateurs[index].innerHTML);
+                        option.innerHTML = realisateurs[index].innerHTML;
+
+                        select.appendChild(option);
+                    }
+                }
+
+            }
+        }
+
+        function changeValue()
+        {
+            let divReal = document.querySelector('#listereal');
+            let titres = xmldoc.getElementsByTagName("titre");
+            let dates = xmldoc.getElementsByTagName("date");
+            let choix =  select.options[select.selectedIndex].text
+
+            let infosDiv = ""; 
+
+            for(let index = 0; index < realisateurs.length; index++)
+            {
+                if(choix == realisateurs[index].innerHTML)
+                {
+                    infosDiv += titres[index].innerHTML + " sorti en " + dates[index].innerHTML + "<br>";
+                }
+            }
+
+            let paragraphe = document.querySelector("p#paragraphe")
+            paragraphe.innerHTML = infosDiv;
         }
          
         </script>
