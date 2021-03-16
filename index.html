@@ -122,11 +122,14 @@
                     XMLDoc = parser.parseFromString(this.responseText, "text/html"); 
 
                     let titres = XMLDoc.getElementsByTagName("titre"); 
+                    console.log(titres);
                     let lestitres = "" 
                     let lesdates = ""; 
                     let lesreals = ""; 
                     let reals = XMLDoc.getElementsByTagName("realisateur"); 
+                    console.log(reals);
                     let dates = XMLDoc.getElementsByTagName("date"); 
+                    console.log(dates);
 
                     let lefilm = ""; 
                     let lereal = ""; 
@@ -136,12 +139,15 @@
                     {
                         lefilm = titres[index].innerHTML; 
                         lestitres += "Titre : " + lefilm + "\n"; 
+                        console.log(lefilm);
 
                         lereal = reals[index].innerHTML; 
                         lesreals += "Realisateurs : " + lereal + "\n";
+                        console.log(lereal);
 
                         ladate = dates[index].innerHTML; 
                         lesdates += "Date : " + ladate + "\n";  
+                        console.log(ladate)
                     }   
                     document.getElementById("areaTitres").innerHTML = lestitres;
                     document.getElementById("areaReals").innerHTML = lesreals; 
