@@ -107,6 +107,18 @@
                     titres = xmldoc.getElementsByTagName("titre"); 
                     reals = xmldoc.getElementsByTagName("realisateur"); 
                     dates = xmldoc.getElementsByTagName("date"); 
+
+                    var select = document.getElementById("realSelect");
+                    let option; 
+
+                    for(let index = 1; index < reals.length; index++)
+                    {
+                        option = document.createElement("option");
+                        option.setAttribute("value", reals[index].innerHTML);
+                        option.innerHTML = reals[index].innerHTML;
+
+                        select.appendChild(option);
+                    }
                 }
             }
             //ouverture de la requête et renvoi des informations 
@@ -114,18 +126,7 @@
             REQ.send();
             
             //set options
-            var select = document.getElementById("realSelect");
-            let option; 
-            reals = xmldoc.getElementsByTagName("realisateur"); 
-
-            for(let index = 1; index < reals.length; index++)
-            {
-                option = document.createElement("option");
-                option.setAttribute("value", reals[index].innerHTML);
-                option.innerHTML = reals[index].innerHTML;
-
-                select.appendChild(option);
-            }
+            
         }
 
         //fonction pour remplir les text areas de façon locale
